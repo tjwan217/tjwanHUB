@@ -148,7 +148,7 @@ local function autoTrackBosses()
 end
 --
 local teleportDelay = 0.8 -- Thời gian chờ giữa mỗi lần teleport (giây)
-local autoFarmDungeon = false
+
 
 
 --Auto Farm Dungeon--
@@ -317,7 +317,7 @@ local function startDungeonSequence()
 end
 --Auto rejoin Dungeon--
 -- 📍 Gọi lại dungeon khi "Dungeon In End"
-local autoRejoinDungeon = false
+
 local function RejoinDungeon()
 	local guiPath = Players.LocalPlayer:WaitForChild("PlayerGui")
 	local dungeonInfo = guiPath:WaitForChild("Hud"):WaitForChild("UpContainer"):WaitForChild("DungeonInfo")
@@ -423,24 +423,18 @@ MainTab:CreateToggle({
 	Name = "Anti AFK",
 	CurrentValue = (antiAfkConnection ~= nil),
 	Flag = "Toggle4",
-	Callback = function(enabled)
-		saveConfig()
-		if enabled then
-			print("Đã bật Anti AFK")
-			if not antiAfkConnection then
-				antiAfkConnection = LocalPlayer.Idled:Connect(function()
-					VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-					task.wait(1)
-					VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-				end)
-			end
-		else
-			print("Đã tắt Anti AFK")
-			if antiAfkConnection then
-				antiAfkConnection:Disconnect()
-				antiAfkConnection = nil
-			end
+	Callback = function(afk)
+		if afk and not antiAfkConnection then
+			antiAfkConnection = LocalPlayer.Idled:Connect(function()
+				VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+				task.wait(1)
+				VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+			end)
+		elseif not afk and antiAfkConnection then
+			antiAfkConnection:Disconnect()
+			antiAfkConnection = nil
 		end
+		saveConfig()
 	end
 })
 
@@ -459,6 +453,7 @@ DungeonTab:CreateToggle({
 	Flag = "ToggleRJ",
 	Callback = function(state)
 		autoRejoinDungeon = state
+		saveConfig()
 		if state then
 			task.spawn(RejoinDungeon)
 		end
@@ -471,6 +466,7 @@ DungeonTab:CreateToggle({
 	Flag = "ToggleD",
 	Callback = function(dabat)
 		autoFarmDungeon = dabat
+		saveConfig()
 		if dabat then
 			task.spawn(autoFarmDungeonTeleport)
 		end
