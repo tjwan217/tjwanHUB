@@ -18,6 +18,8 @@ end
 local autoFarmActive = false
 local AutoClicked = false
 local autoDestroy = false
+local autoRejoinDungeon = false
+local autoFarmDungeon = false
 local antiAfkConnection = nil
 
 if isfile(configFileName) then
@@ -25,6 +27,8 @@ if isfile(configFileName) then
     local settings = HttpService:JSONDecode(data)
 
     autoFarmActive = settings.autoFarm
+	autoFarmDungeon = settings.autoFarmDungeon1
+	autoRejoinDungeon = settings.autoRejoinDungeon1
     AutoClicked = settings.autoClick
     autoDestroy = settings.autoDestroy
 
@@ -40,6 +44,8 @@ end
 --  Hàm lưu config
 local function saveConfig()
     local settings = {
+		autoFarmDungeon1 = autoFarmDungeon,
+		autoRejoinDungeon1 = autoRejoinDungeon,
         autoFarm = autoFarmActive,
         autoClick = AutoClicked,
         autoDestroy = autoDestroy,
