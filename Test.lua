@@ -324,7 +324,7 @@ local function RejoinDungeon()
 
 	while autoRejoinDungeon do
 		task.wait(1) -- mỗi giây kiểm tra một lần
-		if dungeonInfo.Text == "Dungeon In End" then
+		if dungeonInfo.Text == "DUNGEON ENDS IN" then
 			print("🔁 Phát hiện Dungeon kết thúc! Bắt đầu lại...")
 			task.wait(5)
 			startDungeonSequence()
