@@ -382,7 +382,7 @@ MainTab:CreateToggle({
 	Callback = function(Goku)
 		autoFarmActive = Goku
 		saveConfig()
-		if Goku then
+		if autoFarmActive then
 			task.spawn(autoTrackBosses)
 		else
 			print(" Tắt auto farm.")
@@ -467,7 +467,7 @@ DungeonTab:CreateToggle({
 	Callback = function(dabat)
 		autoFarmDungeon = dabat
 		saveConfig()
-		if dabat then
+		if autoFarmDungeon then
 			task.spawn(autoFarmDungeonTeleport)
 		end
 	end			
