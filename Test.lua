@@ -8,69 +8,11 @@ local enemyContainer = workspace:WaitForChild("__Main"):WaitForChild("__Enemies"
 
 local configFolder = "tjwanHUB"
 local configFileName = configFolder .. "/dragonball_config.json"
-
--- create folder nếu chưa có
-if not isfolder(configFolder) then
-    makefolder(configFolder)
-end
-
---  Load config nếu tồn tại
 local autoFarmActive = false
 local AutoClicked = false
 local autoDestroy = false
 local antiAfkConnection = nil
-
-if isfile(configFileName) then
-    local data = readfile(configFileName)
-    local settings = HttpService:JSONDecode(data)
-
-    autoFarmActive = settings.autoFarm
-    AutoClicked = settings.autoClick
-    autoDestroy = settings.autoDestroy
-	autoFarmDungeon = settings.autoFarmDungeon1
-	autoRejoinDungeon = settings.autoRejoinDungeon1
-	teleportDelay = settings.teleportDelay1 or 0.8 -- Thay đổi giá trị mặc định nếu không có trong config
-
-    if settings.antiAfk and not antiAfkConnection then
-        antiAfkConnection = LocalPlayer.Idled:Connect(function()
-            VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-            task.wait(1)
-            VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-        end)
-    end
-
-    -- ✅ Thêm đoạn này
-    if autoFarmActive then
-        task.spawn(autoTrackBosses)
-    end
-	if autoDestroy then
-		task.spawn(fireDestroy)
-	end
-	if AutoClicked then
-		task.spawn(AutoClickFast)
-	end
-	if autoFarmDungeon then
-		task.spawn(autoFarmDungeonTeleport)
-	end
-	if autoRejoinDungeon then
-		task.spawn(RejoinDungeon)
-	end
-end
-
---  Hàm lưu config
-local function saveConfig()
-    local settings = {
-        autoFarm = autoFarmActive,
-        autoClick = AutoClicked,
-		teleportDelay1 = teleportDelay,
-        autoDestroy = autoDestroy,
-        antiAfk = (antiAfkConnection ~= nil),
-		autoFarmDungeon1 = autoFarmDungeon,
-		autoRejoinDungeon1 = autoRejoinDungeon
-    }
-
-    writefile(configFileName, HttpService:JSONEncode(settings))
-end
+-- create folder nếu chưa có
 
 --  Auto Farm Boss Logic
 local enemiesFolder = workspace:WaitForChild("__Main"):WaitForChild("__Enemies"):WaitForChild("Client")
@@ -507,7 +449,64 @@ DungeonTab:CreateSlider({
 	end,
  })
 
+ if not isfolder(configFolder) then
+    makefolder(configFolder)
+end
 
+--  Load config nếu tồn tại
+
+
+if isfile(configFileName) then
+    local data = readfile(configFileName)
+    local settings = HttpService:JSONDecode(data)
+
+    autoFarmActive = settings.autoFarm
+    AutoClicked = settings.autoClick
+    autoDestroy = settings.autoDestroy
+	autoFarmDungeon = settings.autoFarmDungeon1
+	autoRejoinDungeon = settings.autoRejoinDungeon1
+	teleportDelay = settings.teleportDelay1 or 0.8 -- Thay đổi giá trị mặc định nếu không có trong config
+
+    if settings.antiAfk and not antiAfkConnection then
+        antiAfkConnection = LocalPlayer.Idled:Connect(function()
+            VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+            task.wait(1)
+            VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+        end)
+    end
+
+    -- ✅ Thêm đoạn này
+    if autoFarmActive then
+        task.spawn(autoTrackBosses)
+    end
+	if autoDestroy then
+		task.spawn(fireDestroy)
+	end
+	if AutoClicked then
+		task.spawn(AutoClickFast)
+	end
+	if autoFarmDungeon then
+		task.spawn(autoFarmDungeonTeleport)
+	end
+	if autoRejoinDungeon then
+		task.spawn(RejoinDungeon)
+	end
+end
+
+--  Hàm lưu config
+local function saveConfig()
+    local settings = {
+        autoFarm = autoFarmActive,
+        autoClick = AutoClicked,
+		teleportDelay1 = teleportDelay,
+        autoDestroy = autoDestroy,
+        antiAfk = (antiAfkConnection ~= nil),
+		autoFarmDungeon1 = autoFarmDungeon,
+		autoRejoinDungeon1 = autoRejoinDungeon
+    }
+
+    writefile(configFileName, HttpService:JSONEncode(settings))
+end
 
 
 
