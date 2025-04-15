@@ -330,7 +330,7 @@ end
 -- Gọi hàm theo dõi
 
 
---  GUI
+
 -- Tải Fluent UI Library
 local Library = loadstring(game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
 -- Âm thanh khởi động
@@ -416,27 +416,18 @@ toggleButton.MouseButton1Click:Connect(function()
         -- Ẩn Fluent UI
         Window:Minimize(true) -- Thu nhỏ cửa sổ
     end
-end
-local Tabs = {
-    MainTab = Window:CreateTab{
-        Title = "Main",
-        Icon = "phosphor-users-bold"
-    },
-    DungeonTab = Window:CreateTab{
-        Title = "Dungeon"
-        Icon = ""
-    },
-    Settings = Window:CreateTab{
-        Title = "Settings",
-        Icon = "settings"
-    }
-}
+end)
+
+-- Tạo các tab
+local MainTab = Window:AddTab({ Title = "Main", Icon = "" })
+local DungeonTab = Window:AddTab("Dungeon", Icon = "") -- Title, Image
+local MiscTab = Window:AddTab({ Title = "Misc", Icon = "" })
 
 
-Tabs.MainTab:AddToggle({
+
+MainTab:CreateToggle({
 	Title = "Auto Boss Dragonball",
 	Default = autoFarmActive,
-	Description = "Auto Farm Big at Dragonball island",
 	Callback = function(Goku)
 		autoFarmActive = Goku
 		saveConfig()
@@ -448,7 +439,7 @@ Tabs.MainTab:AddToggle({
 	end
 })
 
-Tabs.MainTab:AddToggle({
+MainTab:CreateToggle({
 	Title = "Auto Destroy",
 	Default = autoDestroy,
 	Callback = function(state)
@@ -460,7 +451,7 @@ Tabs.MainTab:AddToggle({
 	end
 })
 
-Tabs.MainTab:AddToggle({
+MainTab:CreateToggle({
 	Title = "Auto Click",
 	Default = AutoClicked,
 	Callback = function(click)
@@ -475,7 +466,7 @@ Tabs.MainTab:AddToggle({
 	end
 })
 
-Tabs.MainTab:AddToggle({
+MainTab:CreateToggle({
 	Title = "Anti AFK",
 	Default = (antiAfkConnection ~= nil),
 	Callback = function(enabled)
@@ -501,15 +492,14 @@ Tabs.MainTab:AddToggle({
 
 
 
-Tabs.DungeonTab:AddButton({
+DungeonTab:CreateButton({
 	Title = "Bypass Dungeon",
-    Description = "Join Dungeon Everytime",
 	Callback = function()
 		startDungeonSequence()
 	end
 })
 
-Tabs.DungeonTab:AddToggle({
+DungeonTab:CreateToggle({
 	Title = "Auto Rejoin When End Dungeon",
 	Default = autoRejoinDungeon,
 	Callback = function(state)
@@ -520,7 +510,7 @@ Tabs.DungeonTab:AddToggle({
 	end			
 })
 
-Tabs.DungeonTab:AddToggle({
+DungeonTab:CreateToggle({
 	Title = "Auto Farm In Dungeon",
 	Default = autoFarmDungeon,
 	Callback = function(dabat)
@@ -533,10 +523,10 @@ Tabs.DungeonTab:AddToggle({
 
 DungeonTab:CreateSlider({
 	Title = "Delay Teleport Farm",
-	Default = teleportDelay, -- Giá trị mặc định của thanh trượt
-    Min = 0, -- Giá trị tối thiểu của thanh trượt
-	Max = 3, -- Giá trị tối đa của thanh trượt
-	Rounding = 0.1, -- Số chữ số thập phân sau dấu phẩy
+	Default = teleportDelay,
+	Min = 0,
+	Max = 3,
+	Rounding = 0.1,
 	Callback = function(Value)
 		
 				teleportDelay = Value
