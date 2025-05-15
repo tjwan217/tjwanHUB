@@ -170,11 +170,6 @@ local Window = Rayfield:CreateWindow({
     LoadingSubtitle = "AutoFarm + Skill",
     Theme = "Default",
     ConfigurationSaving = {
-        Enabled = true,
-        FileName = "TJWAN-Settings"
-    },
-
-    ConfigurationSaving = {
       Enabled = true,
       FolderName = "tjw", -- Create a custom folder for your hub/game
       FileName = "config"
@@ -270,3 +265,12 @@ task.spawn(function()
         end
     end
 end)
+
+-- Load lại giá trị từ Rayfield config nếu có
+autoFarm = Rayfield.Flags.AutoFarmToggle.CurrentValue
+autoSkill = Rayfield.Flags.AutoSkillToggle.CurrentValue
+autoNextLv = Rayfield.Flags.AutoNextLvToggle.CurrentValue
+autoRPlay = Rayfield.Flags.AutoRPlayToggle.CurrentValue
+autoRLobby = Rayfield.Flags.AutoRLobbyToggle.CurrentValue
+autoStart = Rayfield.Flags.AutoStartToggle.CurrentValue
+
