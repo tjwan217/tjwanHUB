@@ -178,17 +178,7 @@ local Window = Rayfield:CreateWindow({
       Enabled = true,
       FolderName = "tjw", -- Create a custom folder for your hub/game
       FileName = "config"
-   },
-
-    KeySystem = true,
-    KeySettings = {
-        Title = "TJWAN Key",
-        Subtitle = "Key System",
-        Note = "Key là: tjwanok",
-        FileName = "TJWAN-Key",
-        SaveKey = true,
-        Key = {"tjwanok"}
-    }
+   }
 })
 
 local MainTab = Window:CreateTab("Auto", 4483362458)
